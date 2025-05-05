@@ -1,0 +1,624 @@
+fileFormatVersion: 2
+guid: fa4865cc973ce184b9a3946c0d357bcc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7823803325855219354
+    second: logo_wbg_0
+  - first:
+      213: -1622251621321022627
+    second: logo_wbg_1
+  - first:
+      213: 7220761187149534232
+    second: logo_wbg_2
+  - first:
+      213: -8771932082653540525
+    second: logo_wbg_3
+  - first:
+      213: -3590180596138074537
+    second: logo_wbg_4
+  - first:
+      213: -8726509758708332557
+    second: logo_wbg_5
+  - first:
+      213: 3642064954796461359
+    second: logo_wbg_6
+  - first:
+      213: -5061119509143066452
+    second: logo_wbg_7
+  - first:
+      213: 8042412670343462424
+    second: logo_wbg_8
+  - first:
+      213: -5080966026081047346
+    second: logo_wbg_9
+  - first:
+      213: -7817715968881460169
+    second: logo_wbg_10
+  - first:
+      213: 2539930377494253919
+    second: logo_wbg_11
+  - first:
+      213: 6652210389744364761
+    second: logo_wbg_12
+  - first:
+      213: -8484241930822150668
+    second: logo_wbg_13
+  - first:
+      213: -2654419984803605515
+    second: logo_wbg_14
+  - first:
+      213: -8335493802034530241
+    second: logo_wbg_15
+  - first:
+      213: 7451869895936169776
+    second: logo_wbg_16
+  - first:
+      213: -2198241964849181740
+    second: logo_wbg_17
+  - first:
+      213: -7023544418409540714
+    second: logo_wbg_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: logo_wbg_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 161
+        width: 488
+        height: 335
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9ebe1e2cabb39c60800000000000000
+      internalID: 7823803325855219354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_1
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 31
+        width: 101
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d53ebd6deba9c79e0800000000000000
+      internalID: -1622251621321022627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_2
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 118
+        width: 42
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 814d9ffda0c453460800000000000000
+      internalID: 7220761187149534232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_3
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 133
+        width: 29
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35f459b1f36d34680800000000000000
+      internalID: -8771932082653540525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 132
+        width: 42
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75e90b7f4cd1d2ec0800000000000000
+      internalID: -3590180596138074537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_5
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 132
+        width: 39
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f7c5370c9535e680800000000000000
+      internalID: -8726509758708332557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_6
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 132
+        width: 42
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2dca87a7c63b8230800000000000000
+      internalID: 3642064954796461359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_7
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 175
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca86ab31f9a43c9b0800000000000000
+      internalID: -5061119509143066452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_8
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 132
+        width: 15
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81e3ce096b36c9f60800000000000000
+      internalID: 8042412670343462424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_9
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 126
+        width: 40
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecc6c93c158cc79b0800000000000000
+      internalID: -5080966026081047346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_10
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 133
+        width: 40
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73cfbef0fb4e18390800000000000000
+      internalID: -7817715968881460169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_11
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 132
+        width: 44
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f51d4c0a835af3320800000000000000
+      internalID: 2539930377494253919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_12
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 23
+        width: 64
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dc20e3ca16615c50800000000000000
+      internalID: 6652210389744364761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_13
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 66
+        width: 50
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f51fd45aeae14a80800000000000000
+      internalID: -8484241930822150668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_14
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 66
+        width: 45
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f35519661b992bd0800000000000000
+      internalID: -2654419984803605515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_15
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 66
+        width: 45
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f38f246ec80625c80800000000000000
+      internalID: -8335493802034530241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_16
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 66
+        width: 36
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 037d3bb403c5a6760800000000000000
+      internalID: 7451869895936169776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_17
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 26
+        width: 49
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4dbceca64964e71e0800000000000000
+      internalID: -2198241964849181740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: logo_wbg_18
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 66
+        width: 36
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6939584509b578e90800000000000000
+      internalID: -7023544418409540714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      logo_wbg_0: 7823803325855219354
+      logo_wbg_1: -1622251621321022627
+      logo_wbg_10: -7817715968881460169
+      logo_wbg_11: 2539930377494253919
+      logo_wbg_12: 6652210389744364761
+      logo_wbg_13: -8484241930822150668
+      logo_wbg_14: -2654419984803605515
+      logo_wbg_15: -8335493802034530241
+      logo_wbg_16: 7451869895936169776
+      logo_wbg_17: -2198241964849181740
+      logo_wbg_18: -7023544418409540714
+      logo_wbg_2: 7220761187149534232
+      logo_wbg_3: -8771932082653540525
+      logo_wbg_4: -3590180596138074537
+      logo_wbg_5: -8726509758708332557
+      logo_wbg_6: 3642064954796461359
+      logo_wbg_7: -5061119509143066452
+      logo_wbg_8: 8042412670343462424
+      logo_wbg_9: -5080966026081047346
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

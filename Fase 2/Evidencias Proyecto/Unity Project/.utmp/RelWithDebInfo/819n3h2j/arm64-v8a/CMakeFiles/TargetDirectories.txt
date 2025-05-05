@@ -1,0 +1,8 @@
+C:/Users/Tatan Testing/Documents/GitHub/DUOCUC_AprendiendoJuntos/.utmp/RelWithDebInfo/819n3h2j/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/Tatan Testing/Documents/GitHub/DUOCUC_AprendiendoJuntos/.utmp/RelWithDebInfo/819n3h2j/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Users/Tatan Testing/Documents/GitHub/DUOCUC_AprendiendoJuntos/.utmp/RelWithDebInfo/819n3h2j/arm64-v8a/GameActivity/CMakeFiles/game.dir
+C:/Users/Tatan Testing/Documents/GitHub/DUOCUC_AprendiendoJuntos/.utmp/RelWithDebInfo/819n3h2j/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+C:/Users/Tatan Testing/Documents/GitHub/DUOCUC_AprendiendoJuntos/.utmp/RelWithDebInfo/819n3h2j/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
+C:/Users/Tatan Testing/Documents/GitHub/DUOCUC_AprendiendoJuntos/.utmp/RelWithDebInfo/819n3h2j/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+C:/Users/Tatan Testing/Documents/GitHub/DUOCUC_AprendiendoJuntos/.utmp/RelWithDebInfo/819n3h2j/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+C:/Users/Tatan Testing/Documents/GitHub/DUOCUC_AprendiendoJuntos/.utmp/RelWithDebInfo/819n3h2j/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir
