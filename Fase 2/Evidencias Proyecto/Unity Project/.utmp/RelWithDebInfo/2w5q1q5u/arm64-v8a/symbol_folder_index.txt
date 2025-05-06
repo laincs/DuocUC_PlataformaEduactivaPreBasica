@@ -1,0 +1,1 @@
+C:\Users\Tatan Testing\Documents\GitHub\DuocUC_PlataformaEduactivaPreBasica\Fase 2\Evidencias Proyecto\Unity Project\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\2w5q1q5u\obj\arm64-v8a
