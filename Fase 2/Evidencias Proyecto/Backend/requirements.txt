@@ -1,0 +1,4 @@
+better-sqlite3
+express
+bcrypt
+jsonwebtoken

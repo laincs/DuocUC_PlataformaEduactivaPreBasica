@@ -1,0 +1,21 @@
+# Node modules
+node_modules/
+
+# Base de datos SQLite
+*.sqlite
+
+# Entornos y configuraciones locales
+.env
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos del sistema
+Thumbs.db
+
+# Directorios temporales
+dist/
+tmp/
