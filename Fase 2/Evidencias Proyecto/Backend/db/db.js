@@ -48,6 +48,29 @@ db.exec(`
     FOREIGN KEY (grade_id) REFERENCES grades(id),
     FOREIGN KEY (location_id) REFERENCES locations(id)
   );
+
+  CREATE TABLE IF NOT EXISTS session_attendance (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    session_id INTEGER NOT NULL,
+    joined_at TEXT NOT NULL DEFAULT (datetime('now')),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (session_id) REFERENCES sessions(id),
+    UNIQUE(user_id, session_id)
+  );
+
+  CREATE TABLE IF NOT EXISTS game_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    session_id INTEGER NOT NULL,
+    game_id TEXT NOT NULL,
+    completed_at TEXT NOT NULL DEFAULT (datetime('now')),
+    duration INTEGER,
+    game_data TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (session_id) REFERENCES sessions(id)
+  );
+
 `)
 
 db.exec(`

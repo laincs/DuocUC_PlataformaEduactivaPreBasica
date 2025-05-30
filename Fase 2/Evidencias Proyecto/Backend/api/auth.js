@@ -2,58 +2,33 @@ import express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import db from '../db/db.js'
+import { sendSuccess, sendError } from './helpers.js'
 
 const router = express.Router()
-const JWT_SECRET = 'tu_clave_secreta' 
-
-function sendSuccess(res, data = null, message = 'Operación exitosa', status = 200) {
-  return res.status(status).json({
-    success: true,
-    data,
-    message,
-    error: null
-  })
-}
-
-function sendError(res, message = 'Ocurrió un error', error = null, status = 400) {
-  return res.status(status).json({
-    success: false,
-    data: null,
-    message,
-    error
-  })
-}
+const JWT_SECRET = 'tu_clave_secreta'
 
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password, user_type, grade, location } = req.body
-
     if (!name || !email || !password || !user_type || !grade || !location) {
       return sendError(res, 'Faltan datos obligatorios', 'Campos incompletos', 400)
     }
-
     const userTypeRow = db.prepare('SELECT id FROM user_types WHERE name = ?').get(user_type)
     const gradeRow = db.prepare('SELECT id FROM grades WHERE name = ?').get(grade)
     const locationRow = db.prepare('SELECT id FROM locations WHERE name = ?').get(location)
-
     if (!userTypeRow || !gradeRow || !locationRow) {
       return sendError(res, 'Tipo de usuario, grado o ubicación inválidos', null, 400)
     }
-
     const existingUser = db.prepare('SELECT id FROM users WHERE email = ?').get(email)
     if (existingUser) {
       return sendError(res, 'Correo ya registrado', null, 400)
     }
-
     const hashedPassword = await bcrypt.hash(password, 10)
-
     const insert = db.prepare(`
       INSERT INTO users (name, email, password, user_type_id, grade_id, location_id)
       VALUES (?, ?, ?, ?, ?, ?)
     `)
-
     const info = insert.run(name, email, hashedPassword, userTypeRow.id, gradeRow.id, locationRow.id)
-
     return sendSuccess(res, { userId: info.lastInsertRowid }, 'Usuario registrado correctamente', 201)
   } catch (error) {
     console.error(error)
@@ -76,18 +51,14 @@ router.post('/login', async (req, res) => {
       WHERE users.email = ?
     `
     const user = db.prepare(query).get(email)
-
     if (!user) {
       return res.status(401).json({ error: 'Credenciales inválidas' })
     }
-
     const match = await bcrypt.compare(password, user.password)
     if (!match) {
       return res.status(401).json({ error: 'Credenciales inválidas' })
     }
-
     const token = jwt.sign({ id: user.userId, name: user.name }, JWT_SECRET, { expiresIn: '1h' })
-
     res.json({
       token,
       userId: user.userId,
@@ -101,16 +72,5 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Error en el servidor' })
   }
 })
-
-
-router.get('/users', (req, res) => {
-  try {
-    const users = db.prepare('SELECT * FROM users').all()
-    return sendSuccess(res, users, 'Usuarios obtenidos correctamente')
-  } catch (err) {
-    return sendError(res, 'Error al obtener los usuarios', err.message, 500)
-  }
-})
-
 
 export default router
