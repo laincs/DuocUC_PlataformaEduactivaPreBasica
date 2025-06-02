@@ -6,20 +6,13 @@ using System;
 
 public static class WebServices
 {
-    private static string supabaseUrl = "https://gcodmdutjqcvzmzmcqyo.supabase.co";
-    private static string apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdjb2RtZHV0anFjdnptem1jcXlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY5ODY4MjUsImV4cCI6MjA2MjU2MjgyNX0.eJD3zIn6HmUlVv97CdOZmvCObAqEsmsMfIJqxoL6Qdo";
+    private static string baseUrl = "http://localhost:3000";
 
     public static IEnumerator Login(string email, string password, Action<string> onSuccess, Action<string> onError)
     {
-        string endpoint = $"{supabaseUrl}/auth/v1/token?grant_type=password";
+        string endpoint = $"{baseUrl}/auth/login";
 
-        LoginRequest requestData = new LoginRequest
-        {
-            email = email,
-            password = password
-        };
-
-        string jsonData = JsonUtility.ToJson(requestData);
+        string jsonData = $"{{\"email\":\"{email}\",\"password\":\"{password}\"}}";
 
         using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
         {
@@ -27,7 +20,6 @@ public static class WebServices
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("apikey", apiKey);
 
             yield return request.SendWebRequest();
 
@@ -42,10 +34,123 @@ public static class WebServices
         }
     }
 
-    [Serializable]
-    private class LoginRequest
+    public static IEnumerator GetSessions(string grade, string location, Action<string> onSuccess, Action<string> onError)
     {
-        public string email;
-        public string password;
+        string endpoint = $"http://localhost:3000/sessions?grade={UnityWebRequest.EscapeURL(grade)}&location={UnityWebRequest.EscapeURL(location)}";
+
+        using (UnityWebRequest request = UnityWebRequest.Get(endpoint))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.downloadHandler.text);
+            }
+            else
+            {
+                onError?.Invoke(request.downloadHandler.text);
+            }
+        }
     }
+
+    public static IEnumerator CreateSession(string gameId, string grade, string location, Action<string> onSuccess, Action<string> onError)
+    {
+        string endpoint = $"{baseUrl}/sessions";
+
+        string jsonData = $"{{\"game_id\":\"{gameId}\",\"grade\":\"{grade}\",\"location\":\"{location}\"}}";
+
+        using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
+        {
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.downloadHandler.text);
+            }
+            else
+            {
+                onError?.Invoke(request.downloadHandler.text);
+            }
+        }
+    }
+
+
+    public static IEnumerator GetSessionUsers(string sessionId, Action<string> onSuccess, Action<string> onError)
+    {
+        string endpoint = $"{baseUrl}/sessions/{sessionId}/users";
+
+        using (UnityWebRequest request = UnityWebRequest.Get(endpoint))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.downloadHandler.text);
+            }
+            else
+            {
+                onError?.Invoke(request.error);
+            }
+        }
+    }
+
+    
+    public static IEnumerator RegisterSessionStart(int sessionId, int userId, Action<string> onSuccess, Action<string> onError)
+    {
+        string endpoint = $"{baseUrl}/sessions/{sessionId}/start";
+
+        string jsonData = $"{{\"user_id\":{userId}}}";
+
+        using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
+        {
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.downloadHandler.text);
+            }
+            else
+            {
+                onError?.Invoke(request.downloadHandler.text);
+            }
+        }
+    }
+
+    public static IEnumerator RegisterSessionEnd(int sessionId, int userId, Action<string> onSuccess, Action<string> onError)
+    {
+        string endpoint = $"{baseUrl}/sessions/{sessionId}/end";
+
+        string jsonData = $"{{\"user_id\":{userId}}}";
+
+        using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
+        {
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.downloadHandler.text);
+            }
+            else
+            {
+                onError?.Invoke(request.downloadHandler.text);
+            }
+        }
+    }
+
+
 }

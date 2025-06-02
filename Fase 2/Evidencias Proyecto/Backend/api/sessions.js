@@ -82,4 +82,94 @@ router.get('/:id', (req, res) => {
   }
 })
 
+router.get('/:id/users', (req, res) => {
+  const { id } = req.params
+
+  try {
+    const users = db.prepare(`
+      SELECT users.id AS user_id, users.name, users.email,
+             sa.joined_at, sa.left_at,
+             CASE 
+               WHEN sa.left_at IS NULL THEN 'active'
+               ELSE 'finished'
+             END AS status
+      FROM session_attendance sa
+      JOIN users ON sa.user_id = users.id
+      WHERE sa.session_id = ?
+    `).all(id)
+
+    return sendSuccess(res, users, 'Usuarios de la sesión obtenidos correctamente')
+  } catch (error) {
+    return sendError(res, 'Error al obtener usuarios de la sesión', error.message, 500)
+  }
+})
+
+router.post('/:id/start', (req, res) => {
+  const { id } = req.params
+  const { user_id } = req.body
+
+  if (!user_id) {
+    return sendError(res, 'Falta el ID del usuario', null, 400)
+  }
+
+  try {
+    const session = db.prepare('SELECT * FROM sessions WHERE id = ?').get(id)
+    if (!session) return sendError(res, 'Sesión no encontrada', null, 404)
+
+    if (session.status === 'closed') {
+      return sendError(res, 'No se puede registrar inicio. La sesión está cerrada.', null, 400)
+    }
+
+    const existing = db.prepare(`
+      SELECT * FROM session_attendance
+      WHERE session_id = ? AND user_id = ?
+    `).get(id, user_id)
+
+    if (!existing) {
+      db.prepare(`
+        INSERT INTO session_attendance (session_id, user_id, joined_at)
+        VALUES (?, ?, datetime('now'))
+      `).run(id, user_id)
+    } else {
+      return sendError(res, 'El usuario ya está registrado en esta sesión', null, 400)
+    }
+
+    return sendSuccess(res, null, 'Inicio de sesión registrado')
+  } catch (error) {
+    return sendError(res, 'Error al registrar inicio de sesión', error.message, 500)
+  }
+})
+
+
+router.post('/:id/end', (req, res) => {
+  const { id } = req.params
+  const { user_id } = req.body
+
+  if (!user_id) {
+    return sendError(res, 'Falta el ID del usuario', null, 400)
+  }
+
+  try {
+    const attendance = db.prepare(`
+      SELECT * FROM session_attendance
+      WHERE session_id = ? AND user_id = ?
+    `).get(id, user_id)
+
+    if (!attendance) {
+      return sendError(res, 'No se encontró una asistencia para esta sesión y usuario', null, 404)
+    }
+
+    db.prepare(`
+      UPDATE session_attendance
+      SET left_at = datetime('now')
+      WHERE session_id = ? AND user_id = ?
+    `).run(id, user_id)
+
+    return sendSuccess(res, null, 'Término de sesión registrado')
+  } catch (error) {
+    return sendError(res, 'Error al registrar término de sesión', error.message, 500)
+  }
+})
+
+
 export default router
