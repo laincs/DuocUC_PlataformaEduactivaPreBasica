@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { NgForm, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-login',
@@ -14,25 +15,33 @@ export class LoginComponent {
   email = '';
   password = '';
   isLoading = false;
-  errorMessage: string | null = null;
+  errorMessage = '';
 
   @Output() loginSuccess = new EventEmitter<void>();
 
-  constructor(private supabase: SupabaseService) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
+  onSubmit(form: NgForm) {
+    if (form.invalid) return;
+    this.isLoading = true;
+    this.errorMessage = '';
 
-async onSubmit(form: NgForm) {
-  if (form.invalid) return;
-  this.isLoading = true;
-  const { data, error } = await this.supabase.signIn(this.email, this.password);
-  this.isLoading = false;
-  if (error) {
-    this.errorMessage = error.message;
-  } else {
-    const url = window.location.origin + '/dashboard';
-      window.open(url, '_blank');
-    console.log('✅ Login OK — emito loginSuccess'); 
-    this.loginSuccess.emit();
+    this.auth.login(this.email, this.password).subscribe({
+      next: (data) => {
+        this.isLoading = false;
+        this.auth.guardarSesion(data.token, data);
+        console.log('✅ Login OK:', data);
+        this.router.navigate(['/dashboard']);
+        this.loginSuccess.emit();
+      },
+      error: (err: any) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.error || 'Error al iniciar sesión';
+        console.error('❌ Login ERROR:', err);
+      }
+    });
   }
-}
 }

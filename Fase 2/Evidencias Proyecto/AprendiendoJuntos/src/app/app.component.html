@@ -1,6 +1,5 @@
-
 <ng-container *ngIf="viewIndex === 0">
-  <app-header (showLogin)="goToLogin()" (showLanding)="goToLanding()"></app-header>
+  <app-header (showLogin)="goToLogin()"></app-header>
   <app-about></app-about>
   <app-features></app-features>
   <app-how-it-works></app-how-it-works>
@@ -8,7 +7,7 @@
 </ng-container>
 
 <ng-container *ngIf="viewIndex === 1">
-  +  <app-login (login-success)="onLoginSuccess()"></app-login>
+  <app-login (loginSuccess)="onLoginSuccess()"></app-login>
 </ng-container>
 
 <ng-container *ngIf="viewIndex === 2">

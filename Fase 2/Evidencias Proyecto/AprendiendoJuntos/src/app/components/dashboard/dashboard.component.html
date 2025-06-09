@@ -1,9 +1,67 @@
 <div class="dashboard-container">
-  <h2>📊 Dashboard de Aprendiendo Juntos</h2>
-  <p>Bienvenido al panel interno. Aquí más adelante verás tus resultados.</p>
-  <ul>
-    <li>Juego 1 – Puntaje: 80%</li>
-    <li>Juego 2 – Puntaje: 95%</li>
-    <li>Juego 3 – Puntaje: 72%</li>
-  </ul>
+  <h2>Panel de Resultados</h2>
+
+  <div class="dashboard-summary">
+    <div>
+      <strong>Total partidas:</strong> {{ totalPartidas }}
+    </div>
+    <div>
+      <strong>Promedio puntaje:</strong>
+      <span [ngClass]="{'high-score': promedioPuntaje > 85, 'low-score': promedioPuntaje <= 85}">
+        {{ promedioPuntaje }}
+      </span>
+    </div>
+    <div>
+      <strong>Último juego:</strong> {{ ultimoJuego ? (ultimoJuego | date: 'short') : '-' }}
+    </div>
+  </div>
+
+  <div class="dashboard-filters">
+    <label>Curso:
+      <select [(ngModel)]="cursoSeleccionado" (change)="filtrar()">
+        <option value="">Todos</option>
+        <option *ngFor="let c of cursos">{{ c }}</option>
+      </select>
+    </label>
+    <label>Alumno:
+      <select [(ngModel)]="alumnoSeleccionado" (change)="filtrar()">
+        <option value="">Todos</option>
+        <option *ngFor="let a of alumnos">{{ a }}</option>
+      </select>
+    </label>
+  </div>
+
+  <div *ngIf="!isLoading && filteredLogs.length > 0">
+    <table class="dashboard-table">
+      <thead>
+        <tr>
+          <th>Alumno</th>
+          <th>Curso</th>
+          <th>Juego</th>
+          <th>Puntaje</th>
+          <th>Fecha</th>
+          <th>Duración</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of filteredLogs">
+          <td>{{ log.user_name }}</td>
+          <td>{{ log.grade_name }}</td>
+          <td>{{ log.game_id }}</td>
+          <td>
+            <span [ngClass]="{'high-score': log.game_data.score > 85, 'low-score': log.game_data.score <= 85}">
+              {{ log.game_data.score }}
+            </span>
+          </td>
+          <td>{{ log.completed_at | date:'short' }}</td>
+          <td>{{ log.duration }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!isLoading && filteredLogs.length === 0" class="no-data">
+    No hay datos para mostrar con esos filtros.
+  </div>
+  <div *ngIf="isLoading" class="loading">Cargando datos...</div>
 </div>

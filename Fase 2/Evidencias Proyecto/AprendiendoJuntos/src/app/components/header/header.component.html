@@ -1,16 +1,11 @@
 <section class="hero">
   <div class="hero__text">
     <h1>La tecnología al servicio de la educación y de los más pequeños</h1>
-    <button class="hero__cta" (click)="toggleLogin()">
-      {{ showLogin ? 'Volver al Inicio' : 'Ingresar a Plataforma' }}
+    <button class="hero__cta" (click)="emitShowLogin()">
+      Ingresar a Plataforma
     </button>
   </div>
   <div class="hero__img">
     <img src="assets/img/teachernkids.png" alt="Profesor y niños con tablet">
   </div>
 </section>
-
-<app-login
-  *ngIf="showLogin"
-  (loginSuccess)="toggleLogin()"
-></app-login>
