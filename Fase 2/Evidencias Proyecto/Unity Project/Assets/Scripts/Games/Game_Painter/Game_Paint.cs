@@ -43,11 +43,9 @@ public class Game_Paint : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            Debug.Log("aa");
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 10f))
             {
-                Debug.Log("POINTED");
                 pointIndicator.position = hit.point;
 
                 currentX = (int)((pointIndicator.localPosition.x - topLeftCorner.localPosition.x) * xMultiplier);

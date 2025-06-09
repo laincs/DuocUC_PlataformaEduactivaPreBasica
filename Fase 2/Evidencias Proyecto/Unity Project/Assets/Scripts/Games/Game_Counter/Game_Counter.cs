@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HowManyHandler : MonoBehaviour
+public class Game_Counter : MonoBehaviour
 {
     public UnityEvent OnWin;
     public UnityEvent OnLose;
