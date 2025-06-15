@@ -4,7 +4,8 @@ using UnityEngine;
 public class GameStager : MonoBehaviour
 {
     public GameObject[] GameStages;
-    public GameObject StageFeedback;
+    public GameObject StageFeedback_Positive;
+    public GameObject StageFeedback_Negative;
     public int currentStage;
 
     public void OnEnable()
@@ -14,10 +15,17 @@ public class GameStager : MonoBehaviour
 
     IEnumerator ShowFeedbackIEnumerator()
     {
-        StageFeedback.SetActive(true);
+        StageFeedback_Positive.SetActive(true);
         yield return new WaitForSeconds(2f);
-        StageFeedback.SetActive(false);
+        StageFeedback_Positive.SetActive(false);
         GoNextStage();
+    }
+
+    IEnumerator ShowFeedbackNegativeIEnumerator()
+    {
+        StageFeedback_Negative.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        StageFeedback_Negative.SetActive(false);
     }
 
     public void GoNextStage()
@@ -41,5 +49,10 @@ public class GameStager : MonoBehaviour
     public void TriggerWin()
     {
         StartCoroutine(ShowFeedbackIEnumerator());
+    }
+
+    public void TriggerLose()
+    {
+        StartCoroutine(ShowFeedbackNegativeIEnumerator());
     }
 }
