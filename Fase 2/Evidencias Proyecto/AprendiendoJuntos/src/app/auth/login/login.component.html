@@ -1,44 +1,71 @@
-<div class="login-container">
-  <h2 class="login-title">Iniciar Sesión</h2>
-
-  <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="login-form">
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        [(ngModel)]="email"
-        required
-        #emailField="ngModel"
-      />
-      <div *ngIf="emailField.invalid && emailField.touched" class="error">
-        El email es obligatorio y debe ser válido.
-      </div>
+<header class="hero hero--login">
+  <div class="hero__text">
+    <h1>Aprendiendo Juntos</h1>
+    <span class="hero__subtitle">Innovación en educación inicial</span>
+  </div>
+  <div class="hero__img hero__img--highlight">
+    <div class="logo-bg">
+      <img src="assets/img/logo2.png" alt="Logo Aprendiendo Juntos" />
     </div>
+  </div>
+  <div class="header-wave"></div>
+</header>
 
-    <div class="form-group">
-      <label for="password">Contraseña</label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        [(ngModel)]="password"
-        required
-        minlength="5"
-        #pwdField="ngModel"
-      />
+<div class="login-bg">
+  <div class="wave-bg"></div>
+  <div class="login-card">
+    <img src="assets/img/avatar.png" alt="Avatar docente" class="login-avatar" />
+    <h2>Iniciar Sesión</h2>
+    <form #f="ngForm" (ngSubmit)="onLogin(f)" class="login-form">
+
+      <div class="input-group">
+        <span class="icon">📧</span>
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          #emailField="ngModel"
+          placeholder="Correo institucional"
+          required
+          autocomplete="username"
+        />
+      </div>
+      <div *ngIf="emailField.invalid && emailField.touched" class="error">
+        El correo es obligatorio y debe ser válido.
+      </div>
+
+      <div class="input-group">
+        <span class="icon">🔒</span>
+        <input
+          [type]="showPass ? 'text' : 'password'"
+          name="password"
+          [(ngModel)]="password"
+          #pwdField="ngModel"
+          placeholder="Contraseña"
+          required
+          minlength="5"
+          autocomplete="current-password"
+        />
+        <button type="button" (click)="showPass = !showPass" class="showpass-btn">
+          {{ showPass ? '🙈' : '👁️' }}
+        </button>
+      </div>
       <div *ngIf="pwdField.invalid && pwdField.touched" class="error">
         La contraseña es obligatoria (mín. 5 caracteres).
       </div>
-    </div>
 
-    <button type="submit" [disabled]="isLoading || f.invalid" class="btn">
-      {{ isLoading ? 'Entrando…' : 'Entrar' }}
+      <button type="submit" [disabled]="isLoading || f.invalid" class="btn-login">
+        <span class="icon">🚀</span>
+        {{ isLoading ? 'Entrando...' : 'Entrar' }}
+      </button>
+
+      <div class="forgot-link">¿Olvidaste tu contraseña?</div>
+      <div class="login-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </form>
+
+  
+    <button type="button" class="btn-volver" (click)="volverAlLanding()">
+      ⬅️ Volver al inicio
     </button>
-
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-  </form>
+  </div>
 </div>

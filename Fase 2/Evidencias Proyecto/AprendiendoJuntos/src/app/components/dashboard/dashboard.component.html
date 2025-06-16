@@ -1,67 +1,115 @@
-<div class="dashboard-container">
-  <h2>Panel de Resultados</h2>
-
-  <div class="dashboard-summary">
-    <div>
-      <strong>Total partidas:</strong> {{ totalPartidas }}
+<div class="main-bg">
+  <header class="hero hero--login">
+    <div class="hero__text">
+      <h1>Aprendiendo Juntos</h1>
+      <span class="hero__subtitle">Innovación en educación inicial</span>
     </div>
-    <div>
-      <strong>Promedio puntaje:</strong>
-      <span [ngClass]="{'high-score': promedioPuntaje > 85, 'low-score': promedioPuntaje <= 85}">
-        {{ promedioPuntaje }}
-      </span>
+    <div class="hero__img hero__img--highlight">
+      <div class="logo-bg">
+        <img src="assets/img/logo2.png" alt="Logo Aprendiendo Juntos" />
+      </div>
     </div>
-    <div>
-      <strong>Último juego:</strong> {{ ultimoJuego ? (ultimoJuego | date: 'short') : '-' }}
+  </header>
+  <div class="wave-bg"></div>
+  <div class="dashboard-container">
+
+    <div class="dashboard-main">
+      <div class="summary-row">
+        <div class="summary-card">
+          <span class="icon">🧮</span>
+          <div>Total partidas</div>
+          <strong>{{ totalPartidas }}</strong>
+        </div>
+        <div class="summary-card">
+          <span class="icon">👤</span>
+          <div>Alumnos únicos</div>
+          <strong>{{ alumnosUnicos }}</strong>
+        </div>
+        <div class="summary-card">
+          <span class="icon">⭐</span>
+          <div>Puntaje promedio</div>
+          <strong>{{ promedioPuntaje }}</strong>
+        </div>
+      </div>
+
+      <div class="filter-bar-glass">
+        <span class="icon">🎓</span>
+        <select [(ngModel)]="cursoSeleccionado" (change)="filtrar()">
+          <option value="">Todos los cursos</option>
+          <option *ngFor="let c of cursos">{{ c }}</option>
+        </select>
+
+        <span class="icon">👤</span>
+        <select [(ngModel)]="alumnoSeleccionado" (change)="filtrar()">
+          <option value="">Todos los alumnos</option>
+          <option *ngFor="let a of alumnos">{{ a }}</option>
+        </select>
+
+        <span class="icon">🕹️</span>
+        <select [(ngModel)]="juegoSeleccionado" (change)="filtrar()">
+          <option value="">Todos los juegos</option>
+          <option *ngFor="let g of juegos">{{ g }}</option>
+        </select>
+
+        <span class="icon">📅</span>
+        <input type="date" [(ngModel)]="fechaDesde" (change)="filtrar()" placeholder="Desde">
+        <input type="date" [(ngModel)]="fechaHasta" (change)="filtrar()" placeholder="Hasta">
+
+        <span class="icon">⭐</span>
+        <input type="number" [(ngModel)]="puntajeMin" (input)="filtrar()" min="0" max="100" placeholder="Puntaje mínimo">
+
+        <button class="btn-reset" (click)="resetFiltros()">
+          <span class="icon">⟳</span> Limpiar
+        </button>
+      </div>
+
+      <div class="chips-bar" *ngIf="hayFiltrosActivos()">
+        <span *ngIf="cursoSeleccionado" class="chip">Curso: {{cursoSeleccionado}}</span>
+        <span *ngIf="alumnoSeleccionado" class="chip">Alumno: {{alumnoSeleccionado}}</span>
+        <span *ngIf="juegoSeleccionado" class="chip">Juego: {{juegoSeleccionado}}</span>
+        <span *ngIf="fechaDesde" class="chip">Desde: {{fechaDesde}}</span>
+        <span *ngIf="fechaHasta" class="chip">Hasta: {{fechaHasta}}</span>
+        <span *ngIf="puntajeMin" class="chip">Puntaje ≥ {{puntajeMin}}</span>
+      </div>
+
+      <div *ngIf="!isLoading && filteredLogs.length > 0">
+        <table class="dashboard-table">
+          <thead>
+            <tr>
+              <th>Alumno</th>
+              <th>Curso</th>
+              <th>Juego</th>
+              <th>Puntaje</th>
+              <th>Fecha</th>
+              <th>Duración</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let log of filteredLogs">
+              <td>{{ log.user_name }}</td>
+              <td>{{ log.grade_name }}</td>
+              <td>{{ log.game_id }}</td>
+              <td>
+                <span [ngClass]="getScoreClass(log.game_data?.score)">
+                  {{ log.game_data?.score !== undefined ? log.game_data.score : '-' }}
+                </span>
+              </td>
+              <td>{{ log.completed_at | date:'short' }}</td>
+              <td>{{ log.duration }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="!isLoading && filteredLogs.length === 0" class="no-data">
+        No hay datos para mostrar con esos filtros.
+      </div>
+      <div *ngIf="isLoading" class="loading">Cargando datos...</div>
+
+      <!-- Botón Volver al inicio -->
+      <button type="button" class="btn-volver" (click)="volverAlLanding()">
+        ⬅️ Volver al inicio
+      </button>
     </div>
   </div>
-
-  <div class="dashboard-filters">
-    <label>Curso:
-      <select [(ngModel)]="cursoSeleccionado" (change)="filtrar()">
-        <option value="">Todos</option>
-        <option *ngFor="let c of cursos">{{ c }}</option>
-      </select>
-    </label>
-    <label>Alumno:
-      <select [(ngModel)]="alumnoSeleccionado" (change)="filtrar()">
-        <option value="">Todos</option>
-        <option *ngFor="let a of alumnos">{{ a }}</option>
-      </select>
-    </label>
-  </div>
-
-  <div *ngIf="!isLoading && filteredLogs.length > 0">
-    <table class="dashboard-table">
-      <thead>
-        <tr>
-          <th>Alumno</th>
-          <th>Curso</th>
-          <th>Juego</th>
-          <th>Puntaje</th>
-          <th>Fecha</th>
-          <th>Duración</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let log of filteredLogs">
-          <td>{{ log.user_name }}</td>
-          <td>{{ log.grade_name }}</td>
-          <td>{{ log.game_id }}</td>
-          <td>
-            <span [ngClass]="{'high-score': log.game_data.score > 85, 'low-score': log.game_data.score <= 85}">
-              {{ log.game_data.score }}
-            </span>
-          </td>
-          <td>{{ log.completed_at | date:'short' }}</td>
-          <td>{{ log.duration }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div *ngIf="!isLoading && filteredLogs.length === 0" class="no-data">
-    No hay datos para mostrar con esos filtros.
-  </div>
-  <div *ngIf="isLoading" class="loading">Cargando datos...</div>
 </div>

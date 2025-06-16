@@ -1,72 +1,128 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { GameLogService } from '../../services/game-log.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    HttpClientModule
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  providers: [GameLogService]
 })
 export class DashboardComponent implements OnInit {
-  gameLogs: any[] = [];
+  @Output() volver = new EventEmitter<void>();
+
+  logs: any[] = [];
   filteredLogs: any[] = [];
   isLoading = true;
 
   cursos: string[] = [];
   alumnos: string[] = [];
+  juegos: string[] = [];
+
+  // Filtros
   cursoSeleccionado = '';
   alumnoSeleccionado = '';
+  juegoSeleccionado = '';
+  fechaDesde: string | null = null;
+  fechaHasta: string | null = null;
+  puntajeMin: number | null = null;
 
-  
+  // Resumen
   totalPartidas = 0;
+  alumnosUnicos = 0;
   promedioPuntaje = 0;
-  ultimoJuego = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private gameLogService: GameLogService) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.cargarLogs();
   }
 
   cargarLogs() {
-    this.http.get<any>('http://localhost:3000/game_logs').subscribe({
-      next: (data) => {
-        this.gameLogs = data.data || [];
-        this.gameLogs.forEach(log => {
-          log.game_data = typeof log.game_data === 'string' ? JSON.parse(log.game_data) : log.game_data;
-        });
-        this.isLoading = false;
-
-        this.cursos = [...new Set(this.gameLogs.map(log => log.grade_name))];
-        this.alumnos = [...new Set(this.gameLogs.map(log => log.user_name))];
-
+    this.isLoading = true;
+    this.gameLogService.getAllLogs().subscribe({
+      next: (response: any) => {
+        this.logs = (response.data || []).map((log: any) => ({
+          ...log,
+          game_data: typeof log.game_data === 'string'
+            ? (log.game_data ? JSON.parse(log.game_data) : {})
+            : (log.game_data || {})
+        }));
+        this.cursos = Array.from(new Set(this.logs.map((l: any) => l.grade_name)));
+        this.alumnos = Array.from(new Set(this.logs.map((l: any) => l.user_name)));
+        this.juegos = Array.from(new Set(this.logs.map((l: any) => l.game_id)));
         this.filtrar();
-      },
-      error: (err) => {
+        this.actualizarResumen();
         this.isLoading = false;
-        alert('Error cargando logs: ' + err.message);
+      },
+      error: () => {
+        this.logs = [];
+        this.filteredLogs = [];
+        this.isLoading = false;
       }
     });
   }
 
   filtrar() {
-    this.filteredLogs = this.gameLogs.filter(log => {
-      const matchCurso = this.cursoSeleccionado ? log.grade_name === this.cursoSeleccionado : true;
-      const matchAlumno = this.alumnoSeleccionado ? log.user_name === this.alumnoSeleccionado : true;
-      return matchCurso && matchAlumno;
+    this.filteredLogs = this.logs.filter((log: any) => {
+      let cumple = true;
+      if (this.cursoSeleccionado && log.grade_name !== this.cursoSeleccionado) cumple = false;
+      if (this.alumnoSeleccionado && log.user_name !== this.alumnoSeleccionado) cumple = false;
+      if (this.juegoSeleccionado && log.game_id !== this.juegoSeleccionado) cumple = false;
+      if (this.fechaDesde && new Date(log.completed_at) < new Date(this.fechaDesde)) cumple = false;
+      if (this.fechaHasta && new Date(log.completed_at) > new Date(this.fechaHasta + 'T23:59:59')) cumple = false;
+      if (this.puntajeMin && log.game_data?.score < this.puntajeMin) cumple = false;
+      return cumple;
     });
+    this.actualizarResumen();
+  }
 
+  resetFiltros() {
+    this.cursoSeleccionado = '';
+    this.alumnoSeleccionado = '';
+    this.juegoSeleccionado = '';
+    this.fechaDesde = null;
+    this.fechaHasta = null;
+    this.puntajeMin = null;
+    this.filtrar();
+  }
+
+  hayFiltrosActivos() {
+    return this.cursoSeleccionado || this.alumnoSeleccionado || this.juegoSeleccionado || this.fechaDesde || this.fechaHasta || this.puntajeMin;
+  }
+
+  actualizarResumen() {
     this.totalPartidas = this.filteredLogs.length;
-    this.promedioPuntaje = this.filteredLogs.length
-      ? Math.round(this.filteredLogs.reduce((sum, log) => sum + (log.game_data.score || 0), 0) / this.filteredLogs.length)
-      : 0;
-    this.ultimoJuego = this.filteredLogs.length
-      ? this.filteredLogs.reduce((latest, log) =>
-          !latest || new Date(log.completed_at) > new Date(latest.completed_at) ? log : latest
-        ).completed_at
-      : '';
+    const alumnosSet = new Set(this.filteredLogs.map((l: any) => l.user_name));
+    this.alumnosUnicos = alumnosSet.size;
+
+    let suma = 0, cuenta = 0;
+    for (const log of this.filteredLogs) {
+      if (log.game_data && typeof log.game_data.score === 'number') {
+        suma += log.game_data.score;
+        cuenta++;
+      }
+    }
+    this.promedioPuntaje = cuenta > 0 ? Math.round(suma / cuenta) : 0;
+  }
+
+  getScoreClass(score: number) {
+    if (score === undefined || score === null) return 'score-empty';
+    if (score < 60) return 'score-low';
+    if (score < 80) return 'score-mid';
+    if (score < 90) return 'score-good';
+    return 'score-excellent';
+  }
+
+  volverAlLanding() {
+    this.volver.emit();
   }
 }

@@ -7,11 +7,16 @@
 </ng-container>
 
 <ng-container *ngIf="viewIndex === 1">
-  <app-login (loginSuccess)="onLoginSuccess()"></app-login>
+  <app-login 
+    (loginSuccess)="onLoginSuccess()" 
+    (volver)="goToLanding()">
+  </app-login>
+  <app-footer></app-footer>
 </ng-container>
 
 <ng-container *ngIf="viewIndex === 2">
-  <app-header (showLanding)="goToLanding()"></app-header>
-  <app-dashboard></app-dashboard>
+  <app-dashboard 
+    (volver)="goToLanding()">
+  </app-dashboard>
   <app-footer></app-footer>
 </ng-container>

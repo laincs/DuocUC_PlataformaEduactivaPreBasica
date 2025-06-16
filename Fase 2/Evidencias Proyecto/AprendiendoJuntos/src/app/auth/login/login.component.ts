@@ -14,34 +14,43 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   email = '';
   password = '';
+  showPass = false;
   isLoading = false;
   errorMessage = '';
 
   @Output() loginSuccess = new EventEmitter<void>();
+  @Output() volver = new EventEmitter<void>();
 
   constructor(
-    private auth: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
-  onSubmit(form: NgForm) {
+  onLogin(form: NgForm) {
     if (form.invalid) return;
     this.isLoading = true;
     this.errorMessage = '';
-
-    this.auth.login(this.email, this.password).subscribe({
-      next: (data) => {
+    this.authService.login(this.email, this.password).subscribe({
+      next: (data: any) => {
         this.isLoading = false;
-        this.auth.guardarSesion(data.token, data);
-        console.log('✅ Login OK:', data);
-        this.router.navigate(['/dashboard']);
-        this.loginSuccess.emit();
+        // Guarda token o lo que corresponda
+        if (data?.token) {
+          this.authService.guardarSesion(data.token, data);
+          this.router.navigate(['/dashboard']);
+          this.loginSuccess.emit();
+        } else {
+          this.errorMessage = 'Respuesta inesperada del servidor.';
+        }
       },
       error: (err: any) => {
         this.isLoading = false;
-        this.errorMessage = err.error?.error || 'Error al iniciar sesión';
+        this.errorMessage = err?.error?.error || 'Error al iniciar sesión';
         console.error('❌ Login ERROR:', err);
       }
     });
+  }
+
+  volverAlLanding() {
+    this.volver.emit();
   }
 }
