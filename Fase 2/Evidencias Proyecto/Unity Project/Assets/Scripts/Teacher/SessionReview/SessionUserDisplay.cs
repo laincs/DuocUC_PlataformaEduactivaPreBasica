@@ -8,10 +8,14 @@ public class SessionUserDisplay : MonoBehaviour
     public GameObject prefab;
     public GameObject targetContainer;
 
+    public TMP_Text gameText;
+    public TMP_Text stateText;
+    public TMP_Text gradeText;
+
     public float refreshInterval = 5f;
 
     float time = 0f;
-    string lastRawResponse = "";
+    public string lastRawResponse = "";
 
     void Update()
     {
@@ -23,9 +27,22 @@ public class SessionUserDisplay : MonoBehaviour
         }
     }
 
+    public string GetGameName(int targetID)
+    {
+        return targetID switch
+        {
+            0 => "Dibujar",
+            1 => "ContarObjectos",
+            2 => "Asociacion",
+            _ => "Other",
+        };
+    }
+
     private void UpdateUsersList()
     {
+
         string sessionId = webServicesProxy.sessions[^1].id.ToString();
+        gameText.text = GetGameName(int.Parse(webServicesProxy.sessions[^1].game_id));
 
         StartCoroutine(WebServices.GetSessionUsers(sessionId,
             onSuccess: (response) =>

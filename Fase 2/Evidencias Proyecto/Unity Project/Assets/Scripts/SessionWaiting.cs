@@ -35,13 +35,10 @@ public class SessionWaiting : MonoBehaviour
                                 sessionOpenDetected = true;
                                 Debug.Log($"Sesión abierta encontrada: {session.game_id}");
 
-                                // ✅ Activar juego correspondiente
                                 ActivateGameById(session.game_id);
 
-                                // ✅ Registrar inicio de sesión
                                 webServicesProxy.StartSession(session.id);
 
-                                // ✅ Llamar evento Unity opcional (por si quieres enganchar algo en el editor)
                                 OnOpenSessionFound?.Invoke();
                                 break;
                             }
