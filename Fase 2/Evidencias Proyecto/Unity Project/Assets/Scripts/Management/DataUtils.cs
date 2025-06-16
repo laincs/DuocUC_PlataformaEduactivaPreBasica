@@ -52,3 +52,16 @@ public class SessionUsersResponse
     public SessionUser[] data;
 }
 
+[System.Serializable]
+public class StatusResponse
+{
+    public bool success;
+    public StatusData data;
+}
+
+[System.Serializable]
+public class StatusData
+{
+    public string status;
+}
+

@@ -79,6 +79,27 @@ public static class WebServices
         }
     }
 
+    public static IEnumerator GetSessionStatus(int sessionId, Action<string> onSuccess, Action<string> onError)
+    {
+        string endpoint = $"{baseUrl}/sessions/{sessionId}/status";
+
+        using (UnityWebRequest request = UnityWebRequest.Get(endpoint))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.downloadHandler.text);
+            }
+            else
+            {
+                onError?.Invoke(request.error);
+            }
+        }
+    }
+
+
+
 
     public static IEnumerator GetSessionUsers(string sessionId, Action<string> onSuccess, Action<string> onError)
     {
@@ -99,9 +120,31 @@ public static class WebServices
         }
     }
 
+    public static IEnumerator CloseSession(int sessionId, Action<string> onSuccess, Action<string> onError)
+    {
+        string endpoint = $"{baseUrl}/sessions/{sessionId}/close";
+
+        using (UnityWebRequest request = UnityWebRequest.Put(endpoint, ""))
+        {
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.downloadHandler.text);
+            }
+            else
+            {
+                onError?.Invoke(request.downloadHandler.text);
+            }
+        }
+    }
+
     
     public static IEnumerator RegisterSessionStart(int sessionId, int userId, Action<string> onSuccess, Action<string> onError)
     {
+        Debug.Log($"SESSION {sessionId} - {userId}");
         string endpoint = $"{baseUrl}/sessions/{sessionId}/start";
 
         string jsonData = $"{{\"user_id\":{userId}}}";

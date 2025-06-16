@@ -140,6 +140,19 @@ router.post('/:id/start', (req, res) => {
   }
 })
 
+router.get('/:id/status', (req, res) => {
+  const { id } = req.params;
+  try {
+    const session = db.prepare('SELECT status FROM sessions WHERE id = ?').get(id);
+    if (!session) return sendError(res, 'Sesión no encontrada', null, 404);
+
+    return sendSuccess(res, { status: session.status }, 'Estado de la sesión obtenido');
+  } catch (error) {
+    return sendError(res, 'Error al obtener estado de sesión', error.message, 500);
+  }
+});
+
+
 
 router.post('/:id/end', (req, res) => {
   const { id } = req.params
@@ -155,9 +168,9 @@ router.post('/:id/end', (req, res) => {
       WHERE session_id = ? AND user_id = ?
     `).get(id, user_id)
 
-    if (!attendance) {
+    /* if (!attendance) {
       return sendError(res, 'No se encontró una asistencia para esta sesión y usuario', null, 404)
-    }
+    } */
 
     db.prepare(`
       UPDATE session_attendance

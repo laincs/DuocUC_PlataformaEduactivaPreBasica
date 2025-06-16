@@ -8,12 +8,43 @@ public class SessionWaiting : MonoBehaviour
     public UnityEvent OnOpenSessionFound;
     public GameObject[] games;
 
+    [Header("Text References")]
+    public GameObject WaitingObject;
+    public GameObject SessionFound;
+    public GameObject Counter_3;
+    public GameObject Counter_2;
+    public GameObject A_Jugar;
+    public StudentWatcher[] studentWatchers;
+
     private bool sessionOpenDetected = false;
 
-    void Start()
+    void OnEnable()
     {
+        WaitingObject.SetActive(true);
+        SessionFound.SetActive(false);
+        Counter_3.SetActive(false);
+        Counter_2.SetActive(false);
+        A_Jugar.SetActive(false);
+
         sessionOpenDetected = false;
         StartCoroutine(CheckForOpenSessionLoop());
+    }
+
+    IEnumerator TriggerSession(string game_id, int session_id)
+    {
+        yield return new WaitForSeconds(1.5f);
+        WaitingObject.SetActive(false);
+        SessionFound.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        Counter_3.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        Counter_2.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        A_Jugar.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        ActivateGameById(game_id);
+        webServicesProxy.StartSession(session_id);
+        OnOpenSessionFound?.Invoke();
     }
 
     IEnumerator CheckForOpenSessionLoop()
@@ -28,21 +59,19 @@ public class SessionWaiting : MonoBehaviour
                     var sessionResponse = JsonUtility.FromJson<SessionResponse>(response);
                     if (sessionResponse != null && sessionResponse.success && sessionResponse.data != null)
                     {
-                        foreach (var session in sessionResponse.data)
+                        for (int i = sessionResponse.data.Length - 1; i >= 0; i--)
                         {
+                            var session = sessionResponse.data[i];
                             if (session.status == "open")
                             {
                                 sessionOpenDetected = true;
-                                Debug.Log($"Sesión abierta encontrada: {session.game_id}");
+                                Debug.Log($"Sesión abierta encontrada: {session.game_id} - {session.id}");
 
-                                ActivateGameById(session.game_id);
-
-                                webServicesProxy.StartSession(session.id);
-
-                                OnOpenSessionFound?.Invoke();
+                                StartCoroutine(TriggerSession(session.game_id, session.id));
                                 break;
                             }
                         }
+
                     }
                 },
                 onError: (error) =>

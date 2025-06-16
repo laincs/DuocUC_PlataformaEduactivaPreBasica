@@ -23,13 +23,15 @@ public class SessionUserDisplay : MonoBehaviour
         if (time > refreshInterval)
         {
             time = 0;
+
+            webServicesProxy.GetUserSessions();
             UpdateUsersList();
         }
     }
 
     public string GetGameName(int targetID)
     {
-        return targetID switch
+        return (targetID - 1) switch
         {
             0 => "Dibujar",
             1 => "ContarObjectos",
@@ -43,6 +45,8 @@ public class SessionUserDisplay : MonoBehaviour
 
         string sessionId = webServicesProxy.sessions[^1].id.ToString();
         gameText.text = GetGameName(int.Parse(webServicesProxy.sessions[^1].game_id));
+        stateText.text = webServicesProxy.sessions[^1].status;
+        gradeText.text = webServicesProxy.sessions[^1].grade_name;
 
         StartCoroutine(WebServices.GetSessionUsers(sessionId,
             onSuccess: (response) =>
@@ -68,7 +72,7 @@ public class SessionUserDisplay : MonoBehaviour
                         newUserObj.GetComponent<SessionUserStudent>().UpdateTMP(
                             user.name,
                             user.email,
-                            user.left_at == null ? "En sesión" : "Terminó",
+                            user.left_at == "" ? "En sesión" : "Terminó",
                             user.joined_at
                         );
                     }
@@ -77,6 +81,10 @@ public class SessionUserDisplay : MonoBehaviour
             onError: (error) =>
             {
                 Debug.LogError("Error al obtener usuarios: " + error);
+
+                gameText.text = "----";
+                stateText.text = "----";
+                gradeText.text = "----";
             }
         ));
     }

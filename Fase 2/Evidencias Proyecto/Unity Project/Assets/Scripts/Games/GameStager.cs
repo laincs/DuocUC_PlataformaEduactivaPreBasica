@@ -4,13 +4,16 @@ using UnityEngine;
 public class GameStager : MonoBehaviour
 {
     public GameObject[] GameStages;
+    public GameObject EndingScene;
     public GameObject StageFeedback_Positive;
     public GameObject StageFeedback_Negative;
     public int currentStage;
+    public WebServicesProxy webServicesProxy;
 
     public void OnEnable()
     {
-        currentStage = 0;
+        currentStage = -1;
+        GoNextStage();
     }
 
     IEnumerator ShowFeedbackIEnumerator()
@@ -37,7 +40,8 @@ public class GameStager : MonoBehaviour
 
         if (currentStage + 1 >= GameStages.Length)
         {
-            //END GAME
+            webServicesProxy.EndSession();
+            EndingScene.SetActive(true);
         }
         else
         {
